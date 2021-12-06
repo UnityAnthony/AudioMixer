@@ -6,12 +6,23 @@ using UnityEngine.UI;
 public class SongSet : MonoBehaviour
 {
     public AudioClip [] songs = new AudioClip[0];
-    public AudioSource source = null;
+   // public AudioSource source = null;
     public Dropdown songDrop = null;
     public VisualizerScript visualizer = null;
+
+    private PedalPanel pp = null;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        if (!pp)
+        {
+            pp = FindObjectOfType<PedalPanel>();
+        }
+    }
     void Start()
     {
+
+        
         if (songDrop)
         {
             List<string> songNames = new List<string>();
@@ -29,10 +40,10 @@ public class SongSet : MonoBehaviour
 
     private void OnSongSelected(int id)
     {
-        source.Stop();
-        source.clip = songs[id];
-        visualizer.audioSource = source;
-        source.Play();
+        pp.currentSource.Stop();
+        pp.currentSource.clip = songs[id];
+        visualizer.audioSource = pp.currentSource;
+        pp.currentSource.Play();
     }
 
 

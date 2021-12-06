@@ -72,27 +72,29 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 9a2b37111e82eff43848ed7e9e6516ba
   m_FloatValues:
-    23ee88509d1ea3f43b5820d907900ea2: 0.5
+    23ee88509d1ea3f43b5820d907900ea2: 0.3
     2512d88066eb0c54b87afcb0c2b45b3b: 3.27
     f73c8f118c40d1849b512f02fdbac66b: 0
     2d76162105ba48540bc3879039f19f19: 7.9
     73358921f9a655841b0ad8303fed8bb5: 64
     dbc57441d7779084cae29abb31e92317: -1992
-    fac0f35103acaa4429002610ad5b880e: 1.701
+    fac0f35103acaa4429002610ad5b880e: 1.54
     2bb82c51503ac284597d1f4ccca0e90e: -0.27
     b3d1998120c0d4c45b6a3356cedc5b9e: 7445
     de273fc17c5199b408a44dad01bd624f: -440
     48b830629c4278c4cabe2707a43a1373: -20.533154
+    a0f99d62824c930479cadf0ec61c1870: 0.903
     5a98cc728ac659047a3fd16d5a530dc8: -10.42163
     417366a20cc0ab145864b795eeb5b484: 0
     26c967b23e9b2854ca4b452bccf0644e: 0
     4ad2787380842ee459b6de8a60f415d7: 0
-    2a16e8b36f69ee547b0b0b553e6d368b: 454
+    89c7a8b35c9a5034c97177d3dc9ca805: 0.2
+    2a16e8b36f69ee547b0b0b553e6d368b: 22000
     b83cd5d300899894b88d203f33f83d61: 0.0465
     d32705448fb17eb42adcec8337193e62: 0.482
     d9831f64f08009e48993ca20b668b348: -21.7
     bb5cb7940b3ef88469b6cf47f8cd7ff1: 0
-    0b3966d4cad3def46bf04c24be15cdd1: 37.2
+    0b3966d4cad3def46bf04c24be15cdd1: 16.3
     242a41e4bdb985549978cb8b3e08f884: -80
     642d91e464a571441bfec031bbdcea8d: 0
     20fa0ca5744d65f47a580cf2afabdb57: 0.636
@@ -122,7 +124,7 @@ AudioMixerSnapshotController:
     a24ac92a5aba7f2489103898963aaba4: 1421
     f7b37c4addfe6de45b0536c6319e7148: 0.3
     dcc6036add2f5cd4c95fdc23ff0956c9: 0.187
-    af8ab88a9f3ad944383c81bdce69c531: 0.155
+    af8ab88a9f3ad944383c81bdce69c531: 0.639
     11cb029a0e91a924c9d7cfb2349dca19: 0
     f372f63bd3288c74d930cef18af388bd: -3670
     9de59dabc60639148bc08606dc37b1ba: 0.903
@@ -137,8 +139,8 @@ AudioMixerSnapshotController:
     36a9a11e89a73474887de05eb11e8046: 0
     7a88244eba533054ead5d0e1b3f8c910: -23.775738
     5e7466ae0da7f464dbd738508152a226: 0
-    b91145bea43387847a82ba424af9141e: 8.3
-    7cd6dbcff34fc5e42823bfa9e4fb8f65: -0.42426407
+    b91145bea43387847a82ba424af9141e: 10.9
+    7cd6dbcff34fc5e42823bfa9e4fb8f65: 0
   m_TransitionOverrides: {}
 --- !u!244 &-6869242863604490668
 AudioMixerEffectController:
@@ -515,8 +517,14 @@ AudioMixerController:
   m_ExposedParameters:
   - guid: a664b24cafee54449883d5ecbcc9d279
     name: VolumeChorus
+  - guid: 23ee88509d1ea3f43b5820d907900ea2
+    name: RateChorus
+  - guid: af8ab88a9f3ad944383c81bdce69c531
+    name: DepthChorus
   - guid: 242a41e4bdb985549978cb8b3e08f884
     name: VolumeCompression
+  - guid: d9831f64f08009e48993ca20b668b348
+    name: ThresholdCompression
   - guid: 9ae2cd375496bda41872a77d78c602b1
     name: GainCompression
   - guid: 3d27bfd5e211a4f46bb7ce3cf1fd90f2
@@ -525,20 +533,40 @@ AudioMixerController:
     name: LevelDistortion
   - guid: 10706c494e6b41a4b89b3d1683a11891
     name: VolumeEcho
+  - guid: d32705448fb17eb42adcec8337193e62
+    name: DecayEcho
+  - guid: 4471e78d673601c4ca609a4cf7334df9
+    name: DelayEcho
   - guid: 4ad2787380842ee459b6de8a60f415d7
     name: VolumeFlange
+  - guid: 89c7a8b35c9a5034c97177d3dc9ca805
+    name: RateFlange
+  - guid: a0f99d62824c930479cadf0ec61c1870
+    name: DepthFlange
   - guid: 11b7ac0642a411b4ca0760c5619e4eec
     name: VolumeHighPass
   - guid: 36a9a11e89a73474887de05eb11e8046
     name: VolumeLowPass
+  - guid: 2a16e8b36f69ee547b0b0b553e6d368b
+    name: CuttoffLowPass
   - guid: 922732b85d27d9648ad4270ed04b8631
     name: VolumeMegaMixer
   - guid: 642d91e464a571441bfec031bbdcea8d
     name: VolumePitchShift
+  - guid: fac0f35103acaa4429002610ad5b880e
+    name: PitchPitchShift
+  - guid: b91145bea43387847a82ba424af9141e
+    name: OverlapPitchShift
   - guid: bb5cb7940b3ef88469b6cf47f8cd7ff1
     name: VolumeReverb
+  - guid: 48b830629c4278c4cabe2707a43a1373
+    name: WetLowPass
+  - guid: 7a88244eba533054ead5d0e1b3f8c910
+    name: WetHighPass
   - guid: f614602946ea2df4a964b40b6c23bfe0
     name: WetPitchShift
+  - guid: 5a98cc728ac659047a3fd16d5a530dc8
+    name: WetChorus
   - guid: 7cd6dbcff34fc5e42823bfa9e4fb8f65
     name: WetEcho
   - guid: fc91ec86645c57947b347a1ab67d880c
@@ -547,14 +575,8 @@ AudioMixerController:
     name: WetDistortion
   - guid: ab6265e91ff37ab438fca6af344bcf57
     name: WetFlange
-  - guid: 7a88244eba533054ead5d0e1b3f8c910
-    name: WetHighPass
-  - guid: 48b830629c4278c4cabe2707a43a1373
-    name: WetLowPass
   - guid: fdc60269973489345af1fb00b29f5560
     name: WetReverb
-  - guid: 5a98cc728ac659047a3fd16d5a530dc8
-    name: WetChorus
   m_AudioMixerGroupViews:
   - guids:
     - b89ba27363a95e04183ad13bb452cb52
@@ -1007,7 +1029,7 @@ AudioMixerEffectController:
     m_GUID: 23a8e2dd0b6f90c4a97ab366ef18d4ad
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 1
-  m_Bypass: 1
+  m_Bypass: 0
 --- !u!245 &5733536448717083440
 AudioMixerSnapshotController:
   m_ObjectHideFlags: 0

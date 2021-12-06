@@ -10,25 +10,26 @@ public class PedalPanel : MonoBehaviour
 
     public Button AddButton = null;
     public Button RemoveButton = null;
+    public Button StopButton = null;
+    public Button PlayButton = null;
 
-    public Dropdown mixerSet = null;
+    public Dropdown sourceSet = null;
 
     public AudioMixer currentMixer = null;
-    public AudioMixer nextMixer = null;
     public AudioSource currentSource = null;
     public AudioMixer rootMixer = null;
 
     //volume and wet
 
-
+    public AudioSource[] sources = new AudioSource[0];
     public AudioMixerGroup[] allMixers = new AudioMixerGroup[0];
     public PedalSelection[] panels = new PedalSelection[0];
 
-
+    public SongSet set = null;
 
     public int depth = 0;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         if (AddButton)
         {
@@ -38,6 +39,32 @@ public class PedalPanel : MonoBehaviour
         {
             RemoveButton.onClick.AddListener(OnRemovePressed);
         }
+        if (StopButton)
+        {
+            StopButton.onClick.AddListener(OnStopPressed);
+        }
+        if (PlayButton)
+        {
+            PlayButton.onClick.AddListener(OnPlayPressed);
+        }
+        if (sourceSet)
+        {
+            sourceSet.onValueChanged.AddListener(OnSourceSeleced);
+            UpdateSourceDropDown();
+           
+        }
+        if (!set)
+        {
+            set = FindObjectOfType<SongSet>();
+        }
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        OnSourceSeleced(0);
+
+
         List<string> mixerNames = new List<string>();
        
         for (int i = 0; i < allMixers.Length; i++)
@@ -76,46 +103,71 @@ public class PedalPanel : MonoBehaviour
         currentMixer = rootMixer;
     }
 
-
-    // Update is called once per frame
-    void Update()
+    private void OnSourceSeleced(int id)
     {
-       
+        currentSource = sources[id];
+        set.visualizer.audioSource = currentSource;
     }
+
+    private void UpdateSourceDropDown()
+    {
+        sources = FindObjectsOfType<AudioSource>();
+       // Debug.Log("There are " + sources.Length + " audio sources" );
+        List<string> sourceNames = new List<string>();
+        for (int i = 0; i < sources.Length; i++)
+        {
+            sourceNames.Add(sources[i].name);
+        }
+        sourceSet.ClearOptions();
+        sourceSet.AddOptions(sourceNames);
+
+    }
+
 
     public void OnAddPressed()
     {
-        //  nextMixer = Instantiate(allMixers[mixerSet.value]);
-        nextMixer = Instantiate(currentMixer);
-        nextMixer.name = "mixer_" + depth.ToString();
-        depth++;
-        nextMixer.outputAudioMixerGroup = currentMixer.outputAudioMixerGroup;
-        currentMixer = nextMixer;
-        //allMixers[1].
-        //nextMixer = null;
-        //nextMixer.name = "NEW_" + currentMixer.name;
-        // currentMixer.outputAudioMixerGroup = nextMixer.outputAudioMixerGroup;
- //       allMixers[1].
+        GameObject go = new GameObject();
+        go.name = "audio" + (sources.Length ).ToString();
+        AudioSource s = go.AddComponent<AudioSource>();
+        if (s)
+        {
+            s.clip = set.songs[set.songDrop.value];
+            s.loop = true;
+            s.Play();
+            set.visualizer.audioSource = s;
+            UpdateSourceDropDown();
+        }else
+        { 
+            Debug.Log("AudioSource not created"); 
+        }
     }
 
     public void OnRemovePressed()
     {
-        AudioMixer last = currentMixer;
-
+        int ID = sourceSet.value;
+        AudioSource s = sources[ID];
+        if (s)
+        {
+            s.Stop();
+            
+            DestroyImmediate(s.gameObject);
+        }
+        UpdateSourceDropDown();
     }
+
+    public void OnStopPressed()
+    {
+        currentSource.Stop();
+    }
+
+    public void OnPlayPressed()
+    {
+        currentSource.Play();
+    }
+
     private void OnMixerSelected(int ID)
     {
-        //  currentMixer = allMixers[ID];
 
-       // SerializedObject obj = new SerializedObject(rootMixer);
-        //SerializedProperty property = allMixers[1].FindProperty("m_IsReadable");
-        //if (property != null)
-        //{
-        //    property.boolValue = false;
-        //}
-        //obj.ApplyModifiedProperties();
-        //EditorUtility.SetDirty(projectAsset);
-        //AssetDatabase.SaveAssets();
 
 
     }
