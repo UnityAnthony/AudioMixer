@@ -180,8 +180,8 @@ public class PedalPanel : MonoBehaviour
            
            // Debug.Log("currentMixer.outputAudioMixerGroup  " + rootMixer.outputAudioMixerGroup.name);
             s.loop = true;
-            
-            //s.Play();
+            if (!s.isPlaying)
+                s.Play();
             set.visualizer.audioSource = s;
             currentSource = s;
             UpdateSourceDropDown();

@@ -65,10 +65,12 @@ public class SongSet : MonoBehaviour
         if (pp.currentSource)
         {
 
-            pp.currentSource.Stop();
+           // pp.currentSource.Stop();
             pp.currentSource.clip = songs[id];
             visualizer.audioSource = pp.currentSource;
-           // pp.currentSource.Play();
+            if(!pp.currentSource.isPlaying)
+            pp.currentSource.Play();
+
         }
         else
         {
