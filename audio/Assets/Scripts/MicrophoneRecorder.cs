@@ -31,10 +31,12 @@ public class MicrophoneRecorder : MonoBehaviour
         if (devices)
         {
             List<string> deviceNames = new List<string>();
+#if UNITY_STANDALONE
             for (int i = 0; i < Microphone.devices.Length; i++)
             {
                 deviceNames.Add(Microphone.devices[i]);
             }
+#endif
             devices.ClearOptions();
             devices.AddOptions(deviceNames);
             devices.onValueChanged.AddListener(OnDeviceChanged);
@@ -81,11 +83,14 @@ public class MicrophoneRecorder : MonoBehaviour
     }
     private void OnDeviceChanged(int ID)
     {
+#if UNITY_STANDALONE
         deviceName = Microphone.devices[ID];
+#endif
     }
 
     public void OnRecordPressed()
     {
+#if UNITY_STANDALONE
         if (Microphone.IsRecording(deviceName))
         {
             Microphone.End(deviceName);
@@ -119,11 +124,12 @@ public class MicrophoneRecorder : MonoBehaviour
 
         }
         UpdateRecordText();
+#endif
     }
     public void UpdateRecordText()
     {
         //Debug.Log("UpdateRecordText " + Microphone.IsRecording(deviceName));
-
+#if UNITY_STANDALONE
         if (Microphone.IsRecording(deviceName))
         {
             recordText.text = "Stop Record ";
@@ -132,9 +138,11 @@ public class MicrophoneRecorder : MonoBehaviour
         {
             recordText.text = "Start Record";
         }
+#endif
     }
     private void Update()
     {
+ #if UNITY_STANDALONE
         if (Microphone.IsRecording(deviceName))
         {
             float deltaTime = Time.time - startTime;
@@ -169,5 +177,6 @@ public class MicrophoneRecorder : MonoBehaviour
                 }
             }
         }
+#endif
     }
 }

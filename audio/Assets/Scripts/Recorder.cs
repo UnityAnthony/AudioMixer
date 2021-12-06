@@ -53,6 +53,7 @@ namespace Recorder
         void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            #if UNITY_STANDALONE
             audioSource.clip = Microphone.Start(Microphone.devices[0], true, 10, 44100);
             if (SaveButton == null)
             {
@@ -62,6 +63,7 @@ namespace Recorder
             {
                 Save();
             });
+#endif
         }
 
         private void Update()
@@ -72,13 +74,13 @@ namespace Recorder
             }
         }
 
-        #endregion
+#endregion
 
-        #region Recorder Functions
+#region Recorder Functions
 
         public static void Save(string fileName = "test")
         {
-
+#if UNITY_STANDALONE
             while (!(Microphone.GetPosition(null) > 0)) { }
             samplesData = new float[audioSource.clip.samples * audioSource.clip.channels];
             audioSource.clip.GetData(samplesData, 0);
@@ -97,7 +99,7 @@ namespace Recorder
             {
                 Debug.LogError("Please, Create a StreamingAssets Directory in the Assets Folder");
             }
-           
+#endif
         }
 
         public static byte[] ConvertWAVtoByteArray(string filePath)
@@ -199,6 +201,6 @@ namespace Recorder
             }
         }
 
-        #endregion
+#endregion
     }
 }

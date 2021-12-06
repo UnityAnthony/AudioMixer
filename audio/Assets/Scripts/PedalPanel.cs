@@ -18,7 +18,7 @@ public class PedalPanel : MonoBehaviour
     public AudioMixer currentMixer = null;
     public AudioSource currentSource = null;
     public AudioMixer rootMixer = null;
-
+    public Canvas c = null;
     //volume and wet
 
     public AudioSource[] sources = new AudioSource[0];
@@ -28,7 +28,8 @@ public class PedalPanel : MonoBehaviour
     public SongSet set = null;
 
     public int depth = 0;
-
+    public bool visible = true;
+   // public Dictionary<int, AudioClip> songDic = new Dictionary<int, AudioClip>();
     private void Awake()
     {
         if (AddButton)
@@ -50,19 +51,24 @@ public class PedalPanel : MonoBehaviour
         if (sourceSet)
         {
             sourceSet.onValueChanged.AddListener(OnSourceSeleced);
-            UpdateSourceDropDown();
+           // UpdateSourceDropDown();
            
         }
         if (!set)
         {
             set = FindObjectOfType<SongSet>();
         }
+
+
+        UpdateSourceDropDown();
+
+
     }
     // Start is called before the first frame update
     void Start()
     {
-
-        OnSourceSeleced(0);
+       // songDic.Clear();
+       // 
 
 
         List<string> mixerNames = new List<string>();
@@ -101,23 +107,51 @@ public class PedalPanel : MonoBehaviour
 
         // rootMixer = Instantiate(allMixers[0]);
         currentMixer = rootMixer;
+        
+       // OnSourceSeleced(0);
+       // OnSourceSeleced(0);
+        //UpdateSourceDropDown
     }
 
     private void OnSourceSeleced(int id)
     {
-        currentSource = sources[id];
-        set.visualizer.audioSource = currentSource;
-    }
+        if (currentSource)
+        {
+            currentSource = sources[id];
+            set.setSong(currentSource.clip.name);
+            set.visualizer.audioSource = currentSource;
 
+        }
+        else
+        { 
+            Debug.Log("OnSourceSeleced currentSource missing");
+        }
+    }
     private void UpdateSourceDropDown()
     {
         sources = FindObjectsOfType<AudioSource>();
        // Debug.Log("There are " + sources.Length + " audio sources" );
         List<string> sourceNames = new List<string>();
+        List<AudioSource> sourceS = new List<AudioSource>();
+        //songDic.Clear();
         for (int i = 0; i < sources.Length; i++)
         {
-            sourceNames.Add(sources[i].name);
+
+            if (sources[i].enabled)
+            {
+                sourceNames.Add(sources[i].name);
+                sourceS.Add(sources[i]);
+            }
         }
+
+        sources = sourceS.ToArray();
+        if (!currentSource)
+        {
+            currentSource = sources[0];
+        }
+        set.setSong(currentSource.clip.name);
+
+        
         sourceSet.ClearOptions();
         sourceSet.AddOptions(sourceNames);
 
@@ -131,10 +165,11 @@ public class PedalPanel : MonoBehaviour
         AudioSource s = go.AddComponent<AudioSource>();
         if (s)
         {
-            s.clip = set.songs[set.songDrop.value];
+            s.clip = set.songs[set.currentSongIndex];
             s.loop = true;
             s.Play();
             set.visualizer.audioSource = s;
+            currentSource = s;
             UpdateSourceDropDown();
         }else
         { 
@@ -171,5 +206,12 @@ public class PedalPanel : MonoBehaviour
 
 
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            c.enabled = !c.enabled;
 
+        }
+    }
 }

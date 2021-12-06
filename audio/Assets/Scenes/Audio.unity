@@ -2353,7 +2353,7 @@ PrefabInstance:
     - target: {fileID: 9107519929128994098, guid: 314674258fd1b104da4e790728397af2,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9107519929128994098, guid: 314674258fd1b104da4e790728397af2,
         type: 3}
@@ -6497,7 +6497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &373836900
 Transform:
   m_ObjectHideFlags: 0
@@ -10121,7 +10121,7 @@ RectTransform:
   m_Children:
   - {fileID: 38396904}
   m_Father: {fileID: 1560866563}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -15975,8 +15975,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.052724108, y: -0.04602709, z: 0.0025130415, w: -0.99754465}
-  m_LocalPosition: {x: 33.91326, y: 2.716051, z: 78.1234}
+  m_LocalRotation: {x: -0.008454646, y: -0.7070545, z: 0.008568774, w: -0.70705664}
+  m_LocalPosition: {x: 110.62581, y: 2.0847638, z: 57.63835}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17586,7 +17586,7 @@ AudioSource:
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
-  Mute: 1
+  Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -21433,7 +21433,7 @@ RectTransform:
   m_Children:
   - {fileID: 213771089}
   m_Father: {fileID: 1560866563}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -24305,7 +24305,7 @@ RectTransform:
   - {fileID: 167679682}
   - {fileID: 1981429132}
   m_Father: {fileID: 1560866563}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -24325,10 +24325,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   songs:
+  - {fileID: 8300000, guid: 502f3b3b035308648aca85b2e0cf1ce9, type: 3}
+  - {fileID: 8300000, guid: d66d51f229682f54f9184ea93fb6073f, type: 3}
   - {fileID: 8300000, guid: 35f938bd76da20f489dfd7bd729d1e34, type: 3}
+  - {fileID: 8300000, guid: f9aecf7ccccea9c49bdc9711956957ae, type: 3}
+  - {fileID: 8300000, guid: 2d60d6f48b6f26945ac7d20b3dd25c0b, type: 3}
+  - {fileID: 8300000, guid: cb33bc6baaddb5640b6c6122fa45d2b9, type: 3}
   - {fileID: 8300000, guid: cb33bc6baaddb5640b6c6122fa45d2b9, type: 3}
   songDrop: {fileID: 1525649948}
   visualizer: {fileID: 690023810}
+  currentSongIndex: -1
 --- !u!114 &1525649948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24915,10 +24921,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1525649946}
   - {fileID: 1751496651}
   - {fileID: 642579628}
   - {fileID: 1324662382}
-  - {fileID: 1525649946}
   - {fileID: 772936573}
   - {fileID: 690023809}
   - {fileID: 1096623934}
@@ -26378,7 +26384,7 @@ RectTransform:
   m_Children:
   - {fileID: 1260674873}
   m_Father: {fileID: 1560866563}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -26443,6 +26449,7 @@ MonoBehaviour:
   currentMixer: {fileID: 0}
   currentSource: {fileID: 0}
   rootMixer: {fileID: 24100000, guid: 82606150689d6244b94d7daf7cc290f2, type: 2}
+  c: {fileID: 1560866566}
   sources: []
   allMixers:
   - {fileID: 6499113944686636218, guid: 82606150689d6244b94d7daf7cc290f2, type: 2}
@@ -26468,6 +26475,7 @@ MonoBehaviour:
   - {fileID: 775167464}
   set: {fileID: 0}
   depth: 0
+  visible: 0
 --- !u!1 &1755681898
 GameObject:
   m_ObjectHideFlags: 0

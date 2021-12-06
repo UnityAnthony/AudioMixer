@@ -11,6 +11,8 @@ public class SongSet : MonoBehaviour
     public VisualizerScript visualizer = null;
 
     private PedalPanel pp = null;
+    public int currentSongIndex = -1;
+    List<string> songNames = new List<string>();
     // Start is called before the first frame update
     private void Awake()
     {
@@ -18,15 +20,10 @@ public class SongSet : MonoBehaviour
         {
             pp = FindObjectOfType<PedalPanel>();
         }
-    }
-    void Start()
-    {
-
-        
         if (songDrop)
         {
-            List<string> songNames = new List<string>();
-            for (int i = 0; i <  songs.Length; i++)
+            songNames.Clear();
+            for (int i = 0; i < songs.Length; i++)
             {
                 songNames.Add(songs[i].name);
             }
@@ -34,16 +31,49 @@ public class SongSet : MonoBehaviour
             songDrop.AddOptions(songNames);
 
             songDrop.onValueChanged.AddListener(OnSongSelected);
-        }
-        
-    }
 
-    private void OnSongSelected(int id)
+        }
+    }
+    public void setSong(string songName)
     {
-        pp.currentSource.Stop();
-        pp.currentSource.clip = songs[id];
-        visualizer.audioSource = pp.currentSource;
-        pp.currentSource.Play();
+       // Debug.Log("setSong " + songName);
+        int found = -1;
+        for (int i = 0; i < songs.Length; i++)
+        {
+            if (songs[i].name == songName)
+            {
+                found = i ;
+                break;
+            }
+        }
+        Debug.Log("found " + found);
+        if (found != -1)
+            songDrop.value = found;
+        else
+        {
+            Debug.Log("no found");
+        }
+    }
+    void Start()
+    {
+        //  OnSongSelected(0);
+    }
+    public void OnSongSelected(int id)
+    {
+        currentSongIndex = id;
+       // currentIndex = id;
+        if (pp.currentSource)
+        {
+
+            pp.currentSource.Stop();
+            pp.currentSource.clip = songs[id];
+            visualizer.audioSource = pp.currentSource;
+           // pp.currentSource.Play();
+        }
+        else
+        {
+            Debug.Log("current sounce not set");
+        }
     }
 
 
