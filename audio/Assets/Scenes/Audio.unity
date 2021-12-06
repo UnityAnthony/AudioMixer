@@ -17568,7 +17568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef4cc8e6172e79d45b8c038ab31260f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  song: {fileID: 1128441773}
   t: {fileID: 38396905}
 --- !u!82 &1128441773
 AudioSource:
@@ -21418,7 +21417,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1324662382
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24325,13 +24324,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   songs:
+  - {fileID: 8300000, guid: cb33bc6baaddb5640b6c6122fa45d2b9, type: 3}
+  - {fileID: 8300000, guid: 35f938bd76da20f489dfd7bd729d1e34, type: 3}
   - {fileID: 8300000, guid: 502f3b3b035308648aca85b2e0cf1ce9, type: 3}
   - {fileID: 8300000, guid: d66d51f229682f54f9184ea93fb6073f, type: 3}
-  - {fileID: 8300000, guid: 35f938bd76da20f489dfd7bd729d1e34, type: 3}
   - {fileID: 8300000, guid: f9aecf7ccccea9c49bdc9711956957ae, type: 3}
   - {fileID: 8300000, guid: 2d60d6f48b6f26945ac7d20b3dd25c0b, type: 3}
-  - {fileID: 8300000, guid: cb33bc6baaddb5640b6c6122fa45d2b9, type: 3}
-  - {fileID: 8300000, guid: cb33bc6baaddb5640b6c6122fa45d2b9, type: 3}
   songDrop: {fileID: 1525649948}
   visualizer: {fileID: 690023810}
   currentSongIndex: -1
@@ -26473,9 +26471,12 @@ MonoBehaviour:
   - {fileID: 1268849613}
   - {fileID: 1250988333}
   - {fileID: 775167464}
+  baseGroup: {fileID: 6499113944686636218, guid: 82606150689d6244b94d7daf7cc290f2,
+    type: 2}
   set: {fileID: 0}
   depth: 0
   visible: 0
+  toggleMute: {fileID: 0}
 --- !u!1 &1755681898
 GameObject:
   m_ObjectHideFlags: 0

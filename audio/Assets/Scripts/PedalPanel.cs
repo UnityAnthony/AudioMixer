@@ -24,12 +24,14 @@ public class PedalPanel : MonoBehaviour
     public AudioSource[] sources = new AudioSource[0];
     public AudioMixerGroup[] allMixers = new AudioMixerGroup[0];
     public PedalSelection[] panels = new PedalSelection[0];
-
+    public AudioMixerGroup baseGroup;
     public SongSet set = null;
 
     public int depth = 0;
     public bool visible = true;
-   // public Dictionary<int, AudioClip> songDic = new Dictionary<int, AudioClip>();
+
+    public ToggleMasterAudio toggleMute;
+    // public Dictionary<int, AudioClip> songDic = new Dictionary<int, AudioClip>();
     private void Awake()
     {
         if (AddButton)
@@ -59,9 +61,12 @@ public class PedalPanel : MonoBehaviour
             set = FindObjectOfType<SongSet>();
         }
 
-
-        UpdateSourceDropDown();
-
+        if (!toggleMute)
+        {
+            toggleMute = FindObjectOfType<ToggleMasterAudio>();
+        }
+        
+        
 
     }
     // Start is called before the first frame update
@@ -107,10 +112,11 @@ public class PedalPanel : MonoBehaviour
 
         // rootMixer = Instantiate(allMixers[0]);
         currentMixer = rootMixer;
-        
-       // OnSourceSeleced(0);
-       // OnSourceSeleced(0);
+
+        // OnSourceSeleced(0);
+        // OnSourceSeleced(0);
         //UpdateSourceDropDown
+        UpdateSourceDropDown();
     }
 
     private void OnSourceSeleced(int id)
@@ -120,7 +126,8 @@ public class PedalPanel : MonoBehaviour
             currentSource = sources[id];
             set.setSong(currentSource.clip.name);
             set.visualizer.audioSource = currentSource;
-
+           
+            toggleMute.UpdateText();
         }
         else
         { 
@@ -149,6 +156,7 @@ public class PedalPanel : MonoBehaviour
         {
             currentSource = sources[0];
         }
+        toggleMute.UpdateText();
         set.setSong(currentSource.clip.name);
 
         
@@ -163,11 +171,17 @@ public class PedalPanel : MonoBehaviour
         GameObject go = new GameObject();
         go.name = "audio" + (sources.Length ).ToString();
         AudioSource s = go.AddComponent<AudioSource>();
+
         if (s)
         {
+            s.outputAudioMixerGroup = rootMixer.FindMatchingGroups("Mega")[0];
             s.clip = set.songs[set.currentSongIndex];
+           // s.o
+           
+           // Debug.Log("currentMixer.outputAudioMixerGroup  " + rootMixer.outputAudioMixerGroup.name);
             s.loop = true;
-            s.Play();
+            
+            //s.Play();
             set.visualizer.audioSource = s;
             currentSource = s;
             UpdateSourceDropDown();

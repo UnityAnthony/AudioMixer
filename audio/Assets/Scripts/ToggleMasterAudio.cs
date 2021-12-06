@@ -5,19 +5,21 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ToggleMasterAudio : MonoBehaviour
 {
-    public AudioSource song = null;
-    public Text t = null;
 
-    private void Start()
+    public Text t = null;
+    PedalPanel pp = null;
+    private void Awake()
     {
-        UpdateText();
+        pp = FindObjectOfType<PedalPanel>();
+       
+       // UpdateText();
     }
 
-    private void UpdateText()
+    public void UpdateText()
     {
         if (t)
         {
-            if (song.mute)
+            if (pp.currentSource.mute)
                 t.text = "Unmute";
             else
                 t.text = "Mute";
@@ -26,7 +28,7 @@ public class ToggleMasterAudio : MonoBehaviour
 
     public void toggleMute()
     {
-        song.mute = !song.mute;
+        pp.currentSource.mute = !pp.currentSource.mute;
         UpdateText();
     }
 }

@@ -46,7 +46,7 @@ public class SongSet : MonoBehaviour
                 break;
             }
         }
-        Debug.Log("found " + found);
+       // Debug.Log("found " + found);
         if (found != -1)
             songDrop.value = found;
         else
