@@ -20,7 +20,7 @@ public class PedalPanel : MonoBehaviour
     public AudioMixer rootMixer = null;
     public Canvas c = null;
     //volume and wet
-
+    public AudioSource[] customSources = new AudioSource[0];
     public AudioSource[] sources = new AudioSource[0];
     public AudioMixerGroup[] allMixers = new AudioMixerGroup[0];
     public PedalSelection[] panels = new PedalSelection[0];
@@ -31,7 +31,15 @@ public class PedalPanel : MonoBehaviour
     public bool visible = true;
 
     public ToggleMasterAudio toggleMute;
+
+    [Space]
+    public Button AddMixer = null;
+    public Button RemoveMixer = null;
+
+    public Dropdown mixerSet = null;
+    public int mixerCount = 1;
     // public Dictionary<int, AudioClip> songDic = new Dictionary<int, AudioClip>();
+   // public PedalSelection pedals = null;
     private void Awake()
     {
         if (AddButton)
@@ -42,6 +50,17 @@ public class PedalPanel : MonoBehaviour
         {
             RemoveButton.onClick.AddListener(OnRemovePressed);
         }
+
+        if (AddMixer)
+        {
+            AddMixer.onClick.AddListener(OnAddMixerPressed);
+        }
+        if (RemoveMixer)
+        {
+            RemoveMixer.onClick.AddListener(OnRemoveMixerPressed);
+        }
+
+
         if (StopButton)
         {
             StopButton.onClick.AddListener(OnStopPressed);
@@ -53,9 +72,13 @@ public class PedalPanel : MonoBehaviour
         if (sourceSet)
         {
             sourceSet.onValueChanged.AddListener(OnSourceSeleced);
-           // UpdateSourceDropDown();
-           
         }
+
+        if (mixerSet)
+        {
+            mixerSet.onValueChanged.AddListener(OnMixerSeleced);
+        }
+
         if (!set)
         {
             set = FindObjectOfType<SongSet>();
@@ -65,10 +88,12 @@ public class PedalPanel : MonoBehaviour
         {
             toggleMute = FindObjectOfType<ToggleMasterAudio>();
         }
-        
-        
+
+
 
     }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -109,6 +134,16 @@ public class PedalPanel : MonoBehaviour
             panels[i].OnMixerSelected(i);
         }
 
+        mixerNames.Clear();
+        for (int i = 0; i < customSources.Length; i++)
+        {
+           // Debug.Log(customSources[i].name + " " + customSources[i].gameObject.activeSelf); 
+            if (customSources[i].gameObject.activeSelf)
+            mixerNames.Add(customSources[i].outputAudioMixerGroup.audioMixer.name);
+        }
+        mixerSet.ClearOptions();
+        mixerSet.AddOptions(mixerNames);
+
 
         // rootMixer = Instantiate(allMixers[0]);
         currentMixer = rootMixer;
@@ -117,6 +152,83 @@ public class PedalPanel : MonoBehaviour
         // OnSourceSeleced(0);
         //UpdateSourceDropDown
         UpdateSourceDropDown();
+    }
+
+    private void UpdateMixerNames()
+    {
+        List<string> mixerNames = new List<string>();
+        for (int i = 0; i < customSources.Length; i++)
+        {
+             if (customSources[i].gameObject.activeSelf)
+            mixerNames.Add(customSources[i].outputAudioMixerGroup.audioMixer.name);
+        }
+        mixerSet.ClearOptions();
+        mixerSet.AddOptions(mixerNames);
+    }
+    private void OnRemoveMixerPressed()
+    {
+        mixerCount--;
+        if (mixerCount < 1)
+            mixerCount = 1;
+
+        customSources[mixerCount].gameObject.SetActive(false);
+        UpdateMixerNames();
+    }
+
+    private void OnAddMixerPressed()
+    {
+        customSources[mixerCount].gameObject.SetActive(true);
+        mixerCount++;
+        if (mixerCount > customSources.Length)
+            mixerCount = customSources.Length;
+
+        UpdateMixerNames();
+    }
+
+    private void OnMixerSeleced(int arg0)
+    {
+
+        UpdateMixerSettings(customSources[arg0].outputAudioMixerGroup);
+        UpdateCurrentSource(customSources[arg0]);
+    }
+
+    private void UpdateCurrentSource(AudioSource s)
+    {
+        currentSource = s;
+        set.setSong(currentSource.clip.name);
+        set.visualizer.audioSource = currentSource;
+
+        toggleMute.UpdateText();
+    }
+
+    private void UpdateMixerSettings(AudioMixerGroup outputAudioMixerGroup)
+    {
+       // Debug.Log("UpdateMixerSettings " + outputAudioMixerGroup.audioMixer.name);
+
+        if (panels.Length >0)
+        {
+            for (int i = 0; i < panels.Length; i++)
+            {
+                PedalSelection ps = panels[i];
+                for (int j = 0; j < ps.parameters.Length; j++)
+                {
+                    PetalParameter pp = ps.parameters[j];
+                    if (pp.gameObject.activeSelf)
+                    {
+                       // Debug.Log("updating "+ pp.name);
+                        pp.mixer = outputAudioMixerGroup.audioMixer;
+                        float val = 0;
+                        if (pp.mixer.GetFloat(pp.paramName, out val))
+                        {
+                            pp.slider.value = pp.map(val, pp.min, pp.max, 0, 1);
+
+                        }
+                    }
+                }
+            }
+        }
+
+     //   throw new NotImplementedException();
     }
 
     private void OnSourceSeleced(int id)
